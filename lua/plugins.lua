@@ -264,6 +264,12 @@ return require("packer").startup(function(use)
         event = "BufRead",
         disable = not O.plugin.bqf.active
     }
+    use {
+        "rmagatti/goto-preview",
+        config = function()
+            require('lv-goto-preview').config()
+        end
+    }
     -- Floating terminal
     use {
         'numToStr/FTerm.nvim',
