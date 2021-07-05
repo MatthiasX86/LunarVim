@@ -21,16 +21,16 @@ O.lushmode = false
 O.transparent_window = false
 
 -- After changing plugin config it is recommended to run :PackerCompile
-O.plugin.hop.active = false
+O.plugin.hop.active = true
 O.plugin.dial.active = false
 O.plugin.dashboard.active = true
 O.plugin.matchup.active = false
-O.plugin.colorizer.active = false
+O.plugin.colorizer.active = true
 O.plugin.numb.active = false
-O.plugin.ts_playground.active = false
-O.plugin.indent_line.active = false
-O.plugin.gitlinker.active = false
-O.plugin.zen.active = false
+O.plugin.ts_playground.active = true
+O.plugin.indent_line.active = true
+O.plugin.gitlinker.active = true
+O.plugin.zen.active = true
 
 -- dashboard
 -- O.dashboard.custom_header = {""}
@@ -67,6 +67,10 @@ O.lang.lua.formatter = 'lua-format'
 -- O.lua.formatter = 'lua-format'
 O.lang.lua.autoformat = false
 
+-- html/css
+O.lang.css.autoformat = false
+-- O.lang.css.formatter = ""
+
 -- javascript
 O.lang.tsserver.formatter = 'prettier'
 O.lang.tsserver.linter = nil
@@ -74,6 +78,7 @@ O.lang.tsserver.autoformat = true
 
 -- json
 O.lang.json.autoformat = true
+O.lang.json.formatter = 'prettier'
 
 -- ruby
 O.lang.ruby.autoformat = true
