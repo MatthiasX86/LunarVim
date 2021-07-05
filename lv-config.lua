@@ -33,6 +33,7 @@ O.plugin.gitlinker.active = true
 O.plugin.zen.active = true
 O.plugin.symbol_outline.active = true
 O.plugin.dap_install.active = true
+O.plugin.goto.active = true
 O.plugin.debug.active = true
 O.plugin.ranger.active = true
 

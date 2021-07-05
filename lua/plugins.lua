@@ -268,7 +268,8 @@ return require("packer").startup(function(use)
         "rmagatti/goto-preview",
         config = function()
             require('lv-goto-preview').config()
-        end
+        end,
+        disable = not O.plugin.goto.active
     }
     -- Floating terminal
     use {

@@ -63,6 +63,7 @@ O = {
         gist = {active = false},
         gitlinker = {active = false},
         lazygit = {active = false},
+        goto = {active = false},
         octo = {active = false},
         lush = {active = false},
         diffview = {active = false},
