@@ -3,6 +3,7 @@ vim.g.symbols_outline = {
     show_guides = true,
     auto_preview = true,
     position = 'right',
+    show_symbol_details = true,
     keymaps = {
         close = "<Esc>",
         goto_location = "<Cr>",
