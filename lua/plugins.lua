@@ -32,7 +32,7 @@ return require("packer").startup(function(use)
 
   -- TODO refactor all of this (for now it works, but yes I know it could be wrapped in a simpler function)
   use { "neovim/nvim-lspconfig" }
-  use { "kabouzeid/nvim-lspinstall", cmd = "LspInstall" }
+  use { "kabouzeid/nvim-lspinstall" }
   -- Telescope
   use { "nvim-lua/popup.nvim" }
   use { "nvim-lua/plenary.nvim" }
@@ -65,6 +65,9 @@ return require("packer").startup(function(use)
 
   -- Treesitter
   use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+
+  -- Neoformat
+  use { "sbdchd/neoformat", event = "BufEnter" }
 
   use {
     "kyazdani42/nvim-tree.lua",
@@ -115,12 +118,20 @@ return require("packer").startup(function(use)
   use { "glepnir/galaxyline.nvim" }
 
   use {
-    "akinsho/nvim-bufferline.lua",
+    "romgrk/barbar.nvim",
     config = function()
-      require("lv-bufferline").config()
+      vim.api.nvim_set_keymap("n", "<TAB>", ":BufferNext<CR>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<S-TAB>", ":BufferPrevious<CR>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<S-x>", ":BufferClose<CR>", { noremap = true, silent = true })
     end,
-    event = "BufRead",
+    -- event = "BufRead",
   }
+
+  -- use {
+  --     "akinsho/nvim-bufferline.lua",
+  --     config = function() require("lv-bufferline").config() end,
+  --     event = "BufRead"
+  -- }
 
   -- Extras, these do not load by default
 
@@ -221,7 +232,11 @@ return require("packer").startup(function(use)
       vim.g.indentLine_enabled = 1
       vim.g.indent_blankline_char = "▏"
 
-      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
+      vim.g.indent_blankline_filetype_exclude = {
+        "help",
+        "terminal",
+        "dashboard",
+      }
       vim.g.indent_blankline_buftype_exclude = { "terminal" }
 
       vim.g.indent_blankline_show_trailing_blankline_indent = false
@@ -253,9 +268,14 @@ return require("packer").startup(function(use)
   use {
     "mfussenegger/nvim-dap",
     config = function()
-        require('dap')
-        vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
-        require('dap').defaults.fallback.terminal_win_cmd = '50vsplit new'
+      require "dap"
+      vim.fn.sign_define("DapBreakpoint", {
+        text = "",
+        texthl = "LspDiagnosticsSignError",
+        linehl = "",
+        numhl = "",
+      })
+      require("dap").defaults.fallback.terminal_win_cmd = "50vsplit new"
     end,
     disable = not O.plugin.debug.active,
   }
@@ -295,6 +315,7 @@ return require("packer").startup(function(use)
     end,
     disable = not O.plugin.lsp_rooter.active,
   }
+
   -- Markdown preview
   use {
     "iamcco/markdown-preview.nvim",
@@ -302,18 +323,21 @@ return require("packer").startup(function(use)
     ft = "markdown",
     disable = not O.plugin.markdown_preview.active,
   }
+
   -- Interactive scratchpad
   use {
     "metakirby5/codi.vim",
     cmd = "Codi",
     disable = not O.plugin.codi.active,
   }
+
   -- Use fzy for telescope
   use {
     "nvim-telescope/telescope-fzy-native.nvim",
     event = "BufRead",
     disable = not O.plugin.telescope_fzy.active,
   }
+
   -- Use project for telescope
   use {
     "nvim-telescope/telescope-project.nvim",
@@ -327,24 +351,28 @@ return require("packer").startup(function(use)
     event = "BufRead",
     disable = not O.plugin.sanegx.active,
   }
+
   -- Sane gx for netrw_gx bug
   use {
     "folke/todo-comments.nvim",
     event = "BufRead",
     disable = not O.plugin.todo_comments.active,
   }
+
   -- LSP Colors
   use {
     "folke/lsp-colors.nvim",
     event = "BufRead",
     disable = not O.plugin.lsp_colors.active,
   }
+
   -- Git Blame
   use {
     "f-person/git-blame.nvim",
     event = "BufRead",
     disable = not O.plugin.git_blame.active,
   }
+
   use {
     "ruifm/gitlinker.nvim",
     event = "BufRead",
@@ -366,24 +394,28 @@ return require("packer").startup(function(use)
     disable = not O.plugin.gitlinker.active,
     requires = "nvim-lua/plenary.nvim",
   }
+
   -- Lazygit
   use {
     "kdheepak/lazygit.nvim",
     cmd = "LazyGit",
     disable = not O.plugin.lazygit.active,
   }
+
   -- Octo
   use {
     "pwntester/octo.nvim",
     event = "BufRead",
     disable = not O.plugin.octo.active,
   }
+
   -- Diffview
   use {
     "sindrets/diffview.nvim",
     event = "BufRead",
     disable = not O.plugin.diffview.active,
   }
+
   -- Easily Create Gists
   use {
     "mattn/vim-gist",
@@ -391,12 +423,14 @@ return require("packer").startup(function(use)
     disable = not O.plugin.gist.active,
     requires = "mattn/webapi-vim",
   }
+
   -- Lush Create Color Schemes
   use {
     "rktjmp/lush.nvim",
     -- cmd = {"LushRunQuickstart", "LushRunTutorial", "Lushify"},
     disable = not O.plugin.lush.active,
   }
+
   -- HTML preview
   use {
     "turbio/bracey.vim",
@@ -412,8 +446,13 @@ return require("packer").startup(function(use)
   }
 
   -- LANGUAGE SPECIFIC GOES HERE
-
-  use { "lervag/vimtex", ft = "tex" }
+  use {
+    "lervag/vimtex",
+    ft = "tex",
+    config = function()
+      require "lv-vimtex"
+    end,
+  }
 
   -- Rust tools
   -- TODO: use lazy loading maybe?
@@ -435,7 +474,7 @@ return require("packer").startup(function(use)
       "typescript",
       "typescriptreact",
       "typescript.tsx",
-    }
+    },
   }
   -- use {
   --   "jose-elias-alvarez/null-ls.nvim",
@@ -459,4 +498,40 @@ return require("packer").startup(function(use)
     requires = "hrsh7th/nvim-compe",
     disable = not O.plugin.tabnine.active,
   }
+
+  -- Pretty parentheses
+  use {
+    "p00f/nvim-ts-rainbow",
+    disable = not O.plugin.ts_rainbow.active,
+  }
+
+  -- Autotags <div>|</div>
+  use {
+    "windwp/nvim-ts-autotag",
+    event = "InsertEnter",
+    disable = not O.plugin.ts_autotag.active,
+  }
+
+  -- Custom semantic text objects
+  use {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    disable = not O.plugin.ts_textobjects.active,
+  }
+
+  -- Smart text objects
+  use {
+    "RRethy/nvim-treesitter-textsubjects",
+    disable = not O.plugin.ts_textsubjects.active,
+  }
+
+  -- Text objects using hint labels
+  use {
+    "mfussenegger/nvim-ts-hint-textobject",
+    event = "BufRead",
+    disable = not O.plugin.ts_hintobjects.active,
+  }
+
+  for _, plugin in pairs(O.custom_plugins) do
+    packer.use(plugin)
+  end
 end)
