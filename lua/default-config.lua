@@ -20,6 +20,7 @@ O = {
   smart_case = true,
   lushmode = false,
   hl_search = false,
+  document_highlight = false,
   transparent_window = false,
   leader_key = "space",
   vnsip_dir = vim.fn.stdpath "config" .. "/snippets",
@@ -29,7 +30,6 @@ O = {
     ensure_installed = "all",
     ignore_install = { "haskell" },
     highlight = { enabled = true },
-    rainbow = { enabled = false },
     -- The below are for treesitter-textobjects plugin
     textobj_prefixes = {
       goto_next = "]", -- Go to next
@@ -62,7 +62,6 @@ O = {
   database = { save_location = "~/.config/nvcode_db", auto_execute = 1 },
 
   plugin = {
-    -- TODO remove non built-ins
     -- Builtins
     dashboard = { active = false },
     colorizer = { active = false },
@@ -80,38 +79,16 @@ O = {
     symbol_outline = { active = false },
     debug = { active = false },
     dap_install = { active = false },
-    lazygit = { active = false },
     lush = { active = false },
     diffview = { active = false },
-
-    ----------------------------------------------------------------------
-    -- Non builtins
-
-    octo = { active = false },
-    gitlinker = { active = false },
-    todo_comments = { active = false },
-    gist = { active = false },
-    git_blame = { active = false },
-    lsp_colors = { active = false },
-    ranger = { active = false },
-    hop = { active = false },
-    dial = { active = false },
-    matchup = { active = false },
-    numb = { active = false },
-    bqf = { active = false },
-    trouble = { active = false },
     floatterm = { active = false },
-    spectre = { active = false },
-    lsp_rooter = { active = false },
-    markdown_preview = { active = false },
-    bracey = { active = false },
-    codi = { active = false },
+    trouble = { active = false },
     sanegx = { active = false },
-    snap = { active = false },
-    tabnine = { active = false },
   },
 
-  custom_plugins = {
+  user_which_key = {},
+
+  user_plugins = {
     -- use lv-config.lua for this not put here
   },
 
@@ -171,6 +148,7 @@ O = {
       },
     },
     tailwindcss = {
+      active = false,
       filetypes = {
         "html",
         "css",
@@ -215,7 +193,13 @@ O = {
       },
     },
     svelte = {},
+
     php = {
+      format = {
+        format = {
+          default = "psr12",
+        },
+      },
       environment = {
         php_version = "7.4",
       },
