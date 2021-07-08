@@ -8,6 +8,16 @@ function lv_utils.reload_lv_config()
   vim.cmd ":PackerInstall"
 end
 
+function lv_utils.check_lsp_client_active(name)
+  local clients = vim.lsp.get_active_clients()
+  for _, client in pairs(clients) do
+    if client.name == name then
+      return true
+    end
+  end
+  return false
+end
+
 function lv_utils.define_augroups(definitions) -- {{{1
   -- Create autocommand groups based on the passed definitions
   --
@@ -74,8 +84,16 @@ lv_utils.define_augroups {
   },
   _auto_resize = {
     -- will cause split windows to be resized evenly if main window is resized
-    { "VimResized ", "*", "wincmd =" },
+    { "VimResized", "*", "wincmd =" },
   },
+  _packer_compile = {
+    -- will cause split windows to be resized evenly if main window is resized
+    { "BufWritePost", "plugins.lua", "PackerCompile" },
+  },
+  -- _fterm_lazygit = {
+  --   -- will cause esc key to exit lazy git
+  --   {"TermEnter", "*", "call LazyGitNativation()"}
+  -- },
   -- _mode_switching = {
   --   -- will switch between absolute and relative line numbers depending on mode
   --   {'InsertEnter', '*', 'if &relativenumber | let g:ms_relativenumberoff = 1 | setlocal number norelativenumber | endif'},
@@ -84,6 +102,16 @@ lv_utils.define_augroups {
   --   {'InsertLeave', '*', 'if exists("g:ms_cursorlineoff") | setlocal cursorline | endif'},
   -- },
 }
+
+vim.cmd [[
+  function! QuickFixToggle()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+      copen
+    else
+      cclose
+    endif
+endfunction
+]]
 
 return lv_utils
 
